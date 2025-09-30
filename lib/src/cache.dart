@@ -54,10 +54,14 @@ class Cache<K, V> {
     }
   }
 
-  Cache.withDefaults()
-      : _expiryPolicy = CreatedExpiryPolicy(Duration(seconds: 60)),
-        _evictionPolicy = FifoEvictionPolicy<K>(),
-        _maxEntries = 56;
+  Cache.withDefaults({
+    ExpiryPolicy? expiryPolicy,
+    EvictionPolicy<K>? evictionPolicy,
+    int maxEntries = 56,
+  })  : _expiryPolicy =
+            expiryPolicy ?? CreatedExpiryPolicy(Duration(seconds: 60)),
+        _evictionPolicy = evictionPolicy ?? FifoEvictionPolicy<K>(),
+        _maxEntries = maxEntries;
 
   /// Returns the number of valid (non-expired) entries in the cache.
   ///
