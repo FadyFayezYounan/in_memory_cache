@@ -1,6 +1,7 @@
 import 'cache_entry.dart';
 import 'eviction_policy/fifo_eviction_policy.dart';
 import 'expiry_policy/created_expiry_policy.dart';
+import 'expiry_policy/eternal_expiry_policy.dart';
 import 'expiry_policy/expiry_policy.dart';
 import 'eviction_policy/eviction_policy.dart';
 
@@ -42,10 +43,10 @@ class Cache<K, V> {
   /// [evictionPolicy] determines which entries to remove when the cache is full.
   /// [maxEntries] sets the maximum number of entries (null for unlimited).
   Cache({
-    required ExpiryPolicy expiryPolicy,
+    ExpiryPolicy? expiryPolicy,
     EvictionPolicy<K>? evictionPolicy,
     int? maxEntries,
-  })  : _expiryPolicy = expiryPolicy,
+  })  : _expiryPolicy = expiryPolicy ?? EternalExpiryPolicy(),
         _evictionPolicy = evictionPolicy,
         _maxEntries = maxEntries {
     if (maxEntries != null && maxEntries <= 0) {
